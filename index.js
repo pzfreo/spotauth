@@ -118,5 +118,5 @@ app.get('/token', (req, res) => {
 });
 
 // Export the Express app as the Cloud Function entry point
-exports.spotifyAuth = functions.https.onRequest(app);
-
+// exports.spotifyAuth = functions.https.onRequest(app);
+exports.app = app;
