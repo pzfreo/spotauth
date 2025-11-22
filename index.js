@@ -7,8 +7,16 @@ const bodyParser = require('body-parser');
 // 🔑 Initialize Firebase Admin SDK
 // This assumes your GCF environment already has the necessary service account credentials.
 // Initializes only if not already initialized (standard GCF pattern)
-const { Firestore } = require('@google-cloud/firestore');
-const admin =  new Firestore();
+const { initializeApp, applicationDefault } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+
+// Initialize with applicationDefault()
+initializeApp({
+  credential: applicationDefault() 
+});
+
+const db = getFirestore();
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,7 +32,7 @@ const TOKENS_COLLECTION = 'spotifyTokens'; // Firestore collection name
 // ------------------------------------------------------------------
 
 // Helper function to get the Firestore Document Reference
-const getTokenDocRef = (deviceId) => admin.collection(TOKENS_COLLECTION).doc(deviceId);
+const getTokenDocRef = (deviceId) => db.collection(TOKENS_COLLECTION).doc(deviceId);
 
 // ------------------------------------------------------------------
 // 1. /login: Endpoint the ESP32 user visits to start the flow.
@@ -86,7 +94,7 @@ app.get('/callback', async (req, res) => {
       accessToken: tokenData.access_token,
       refreshToken: tokenData.refresh_token,
       expiresIn: tokenData.expires_in,
-      timestamp: admin.firestore.FieldValue.serverTimestamp()
+      timestamp: db.firestore.FieldValue.serverTimestamp()
     });
 
     res.send(`✅ **Success!** Device ID: ${deviceId}. Tokens saved securely. You can now close this window.`);
@@ -189,7 +197,7 @@ app.get('/refresh', async (req, res) => {
         const updateData = {
             accessToken: tokenData.access_token,
             expiresIn: tokenData.expires_in,
-            timestamp: admin.firestore.FieldValue.serverTimestamp()
+            timestamp: db.firestore.FieldValue.serverTimestamp()
         };
 
         // Spotify sometimes returns a new refresh token (rotation). We MUST save it.
