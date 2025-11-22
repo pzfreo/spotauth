@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "functions-framework --target=app",
-    "deploy": "gcloud functions deploy spotifyAuth --runtime nodejs18 --trigger-http --allow-unauthenticated --entry-point app"
+    "deploy": "gcloud functions deploy spotifyAuth --runtime nodejs22 --trigger-http --allow-unauthenticated --entry-point app"
   },
   "dependencies": {
    
