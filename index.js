@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 // This assumes your GCF environment already has the necessary service account credentials.
 // Initializes only if not already initialized (standard GCF pattern)
 const { initializeApp, applicationDefault } = require('firebase-admin/app');
-const { getFirestore } = require('firebase-admin/firestore');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 
 // Initialize with applicationDefault()
 initializeApp({
@@ -95,7 +95,7 @@ app.get('/callback', async (req, res) => {
       accessToken: tokenData.access_token,
       refreshToken: tokenData.refresh_token,
       expiresIn: tokenData.expires_in,
-      timestamp: db.firestore.FieldValue.serverTimestamp()
+      timestamp: FieldValue.serverTimestamp()
     });
 
     res.send(`✅ **Success!** Device ID: ${deviceId}. Tokens saved securely. You can now close this window.`);
@@ -198,7 +198,7 @@ app.get('/refresh', async (req, res) => {
         const updateData = {
             accessToken: tokenData.access_token,
             expiresIn: tokenData.expires_in,
-            timestamp: db.firestore.FieldValue.serverTimestamp()
+            timestamp: FieldValue.serverTimestamp()
         };
 
         // Spotify sometimes returns a new refresh token (rotation). We MUST save it.
