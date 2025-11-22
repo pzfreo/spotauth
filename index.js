@@ -217,6 +217,14 @@ app.get('/refresh', async (req, res) => {
 });
 
 
+// Cloud Run automatically sets the PORT environment variable.
+// The service must listen on this port.
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
 // Exports the Express app instance. In Google Cloud Functions, the entry point 
 // would be configured to be 'app' if using the 'HTTP trigger' type.
 exports.app = app;
