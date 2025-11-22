@@ -225,6 +225,6 @@ app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
 
-// Exports the Express app instance. In Google Cloud Functions, the entry point 
-// would be configured to be 'app' if using the 'HTTP trigger' type.
-exports.app = app;
+// // Exports the Express app instance. In Google Cloud Functions, the entry point 
+// // would be configured to be 'app' if using the 'HTTP trigger' type.
+// exports.app = app;
