@@ -8,7 +8,7 @@
     "deploy": "gcloud functions deploy spotifyAuth --runtime nodejs18 --trigger-http --allow-unauthenticated --entry-point app"
   },
   "dependencies": {
-    "@google-cloud/functions-framework": "^3.0.0",
+   
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
     "firebase-admin": "^13.6.0",

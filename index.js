@@ -1,5 +1,6 @@
 // Cloud Function Dependencies
-const functions = require('@google-cloud/functions-framework');
+// const functions = require('@google-cloud/functions-framework');
+ // "@google-cloud/functions-framework": "^3.0.0",
 const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
