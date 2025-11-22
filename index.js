@@ -3,16 +3,12 @@
  // "@google-cloud/functions-framework": "^3.0.0",
 const express = require('express');
 const bodyParser = require('body-parser');
-const admin = require('firebase-admin');
 
 // 🔑 Initialize Firebase Admin SDK
 // This assumes your GCF environment already has the necessary service account credentials.
 // Initializes only if not already initialized (standard GCF pattern)
-if (admin.apps.length === 0) {
-    admin.initializeApp();
-}
-const db = admin.firestore();
-
+const { Firestore } = require('@google-cloud/firestore');
+const admin =  new Firestore();
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,7 +24,7 @@ const TOKENS_COLLECTION = 'spotifyTokens'; // Firestore collection name
 // ------------------------------------------------------------------
 
 // Helper function to get the Firestore Document Reference
-const getTokenDocRef = (deviceId) => db.collection(TOKENS_COLLECTION).doc(deviceId);
+const getTokenDocRef = (deviceId) => admin.collection(TOKENS_COLLECTION).doc(deviceId);
 
 // ------------------------------------------------------------------
 // 1. /login: Endpoint the ESP32 user visits to start the flow.
